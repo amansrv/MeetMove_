@@ -72,7 +72,7 @@
     <script src="../public/js/UrlCompressor.js" defer></script>
   </head>
   <body>
-    <form onsubmit="shortenUrl(event)">
+    <!-- <form onsubmit="shortenUrl(event)">
       <input type="text" name="url" placeholder="Enter URL here" />
       <button type="submit">Shorten</button>
     </form>
@@ -98,6 +98,57 @@
         } else {
           // Display an error message to the user
         }
+      }
+
+      function copyToClipboard() {
+        const shortUrlInput = document.getElementById("shortUrl");
+        shortUrlInput.select();
+        document.execCommand("copy");
+      }
+    </script> -->
+
+    <form onsubmit="shortenUrl(event)">
+      <input type="text" name="url" placeholder="Enter URL here" />
+      <button type="submit">Shorten</button>
+    </form>
+    <div class="short-url" style="display: none">
+      <input type="text" id="shortUrl" readonly placeholder="Short URL" />
+      <button type="button" onclick="copyToClipboard()">Copy</button>
+    </div>
+    <div id="error-message" style="display: none; color: red"></div>
+    <script>
+      async function shortenUrl(event) {
+        event.preventDefault();
+        const urlInput = document.querySelector('input[name="url"]');
+        const url = urlInput.value.trim();
+        if (!url) return;
+
+        const apiUrl = `https://tinyurl.com/api-create.php?url=${encodeURIComponent(
+          url
+        )}`;
+
+        try {
+          const response = await fetch(apiUrl);
+          const shortUrl = await response.text();
+
+          if (response.ok) {
+            const shortUrlInput = document.getElementById("shortUrl");
+            shortUrlInput.value = shortUrl;
+            document.querySelector(".short-url").style.display = "flex";
+            document.getElementById("error-message").style.display = "none";
+          } else {
+            displayError("Failed to shorten URL. Please try again.");
+          }
+        } catch (error) {
+          displayError("An error occurred. Please try again later.");
+        }
+      }
+
+      function displayError(message) {
+        const errorMessage = document.getElementById("error-message");
+        errorMessage.textContent = message;
+        errorMessage.style.display = "block";
+        document.querySelector(".short-url").style.display = "none";
       }
 
       function copyToClipboard() {
