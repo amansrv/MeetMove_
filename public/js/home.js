@@ -106,6 +106,8 @@ const roomRender = (ele, room) => {
       `;
 };
 
+//  code is displaying the current user's display name, email address, and profile picture on a webpage, if that information is available.
+
 firebase.auth().onAuthStateChanged(async function (user) {
   if (user) {
     document.querySelector("#username").innerHTML =
@@ -238,8 +240,8 @@ function validateMultipleEmails(emailInput) {
   if (invalidEmails != 0) {
     $(".form-group").append(
       '<p class="text-danger">Invalid emails: ' +
-        invalidEmails.join(", ") +
-        "</p>"
+      invalidEmails.join(", ") +
+      "</p>"
     );
   }
   if (validEmails.length === emails.length) {

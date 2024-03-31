@@ -2,7 +2,7 @@ const { model, Schema } = require("mongoose");
 
 // Message has a 1 to N relationship with User
 // Message also has a 1 to N relationship with Room
-// So we store the refs alongiwth the message content
+// So we store the refs along with the message content
 const messageSchema = new Schema(
   {
     user: {

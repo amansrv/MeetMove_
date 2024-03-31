@@ -35,9 +35,9 @@ async function SendFeedback() {
       "content-type": "application/json",
     },
   });
-  
+
   // parse the response as JSON
   let data = await res.json();
-  
+
   console.log(data);
 }
